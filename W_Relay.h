@@ -7,49 +7,80 @@ Version 0.1
   #define W_Relay_h
 
   #include "Arduino.h"
+  #include <AsyncMqttClient.h>
 
   class W_Relay {
 
     public:
       // --------------------------------------------- Setup ---------------------------------------------
-      W_Relay(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3, int Replay_Pin_4, int Replay_Pin_5, int Replay_Pin_6);
-      W_Relay(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3, int Replay_Pin_4, int Replay_Pin_5);
-      W_Relay(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3, int Replay_Pin_4);
-      W_Relay(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3);
-      W_Relay(int Replay_Pin_1, int Replay_Pin_2);
-      W_Relay(int Replay_Pin_1);
+      W_Relay(bool Relay_On_State);
+
+      // --------------------------------------------- Set Commands ---------------------------------------------
+      void Set_Pins(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3, int Replay_Pin_4, int Replay_Pin_5, int Replay_Pin_6);
+      void Set_Pins(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3, int Replay_Pin_4, int Replay_Pin_5);
+      void Set_Pins(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3, int Replay_Pin_4);
+      void Set_Pins(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3);
+      void Set_Pins(int Replay_Pin_1, int Replay_Pin_2);
+      void Set_Pins(int Replay_Pin_1);
+
+      void Set_MQTT_Client(AsyncMqttClient &MQTT_Client);
+
+      void Set_Topics(String Relay_Topic_String_ALL, String Relay_Topic_String);
+
+      void Set_Auto_OFF_Relays(bool Auto_OFF_Relay_1, bool Auto_OFF_Relay_2, bool Auto_OFF_Relay_3, bool Auto_OFF_Relay_4, bool Auto_OFF_Relay_5, bool Auto_OFF_Relay_6);
+      void Set_Auto_OFF_Relays(bool Auto_OFF_Relay_1, bool Auto_OFF_Relay_2, bool Auto_OFF_Relay_3, bool Auto_OFF_Relay_4, bool Auto_OFF_Relay_5);
+      void Set_Auto_OFF_Relays(bool Auto_OFF_Relay_1, bool Auto_OFF_Relay_2, bool Auto_OFF_Relay_3, bool Auto_OFF_Relay_4);
+      void Set_Auto_OFF_Relays(bool Auto_OFF_Relay_1, bool Auto_OFF_Relay_2, bool Auto_OFF_Relay_3);
+      void Set_Auto_OFF_Relays(bool Auto_OFF_Relay_1, bool Auto_OFF_Relay_2);
+      void Set_Auto_OFF_Relays(bool Auto_OFF_Relay_1);
+
+      void Set_Auto_OFF_Delay(unsigned long Auto_OFF_Delay);
+
+      bool isValidNumber(String str);
 
 
-      // --------------------------------------------- Relay ---------------------------------------------
+      // --------------------------------------------- Relay Auto OFF ---------------------------------------------
+      void Relay_Auto_OFF();
 
 
-
-      // void Push(String Push_String, bool Add_To_Front_Of_Queue);
-      // void Push(String Push_String);
-      // String Pop();
-      // String Peek();
-      // String Peek_Queue();
-      // int Length();
-      // void Clear();
-      // String Search_Peek(String Search_String);
-      // String Search_Pop(String Search_String, bool Delete_All_Matches);
-      //
-      // bool Queue_Is_Empthy = true;
+      // --------------------------------------------- Check ---------------------------------------------
+      void Check(String Topic, String Payload);
 
 
     private:
-      // --------------------------------------------- Relay ---------------------------------------------
+
+      // --------------------------------------------- Relay Auto OFF ---------------------------------------------
+      void _Relay_Auto_OFF(int Relay_Pin);
+      void _Relay_Auto_OFF_Check(int Relay_Pin);
+
+      // --------------------------------------------- General ---------------------------------------------
       #define OFF 0
       #define ON 1
       #define FLIP 2
 
+      // --------------------------------------------- Set Pins ---------------------------------------------
       #define _Relay_Number_Of_Init 6
-      int _Relay_Pin_[_Relay_Number_Of_Init];
+      int _Relay_Pin[_Relay_Number_Of_Init];
 
       bool _Relay_On_State = HIGH;
 
-      // Ticker Relay_Auto_OFF_Ticker;
-      // unsigned long Relay_Auto_OFF_Timer = 20000;
+
+      // --------------------------------------------- Set Topics ---------------------------------------------
+      String _Relay_Topic;
+      String _Relay_Topic_All;
+
+
+      // --------------------------------------------- Set Auto OFF ---------------------------------------------
+      bool _Relay_Auto_OFF_Relays[_Relay_Number_Of_Init] = {false, false, false, false, false, false};
+
+      bool _Relay_Auto_OFF_Active[_Relay_Number_Of_Init] = {false, false, false, false, false, false};
+
+      unsigned long _Relay_Auto_OFF_At[_Relay_Number_Of_Init] = {0, 0, 0, 0, 0, 0};
+      unsigned long _Relay_Auto_OFF_Delay = 5000;
+
+
+      // --------------------------------------------- Set MQTT Client ---------------------------------------------
+      AsyncMqttClient _MQTT_Client;
 
 
   };
