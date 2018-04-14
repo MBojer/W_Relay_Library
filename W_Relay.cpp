@@ -192,10 +192,7 @@ void W_Relay::Check(String Topic, String Payload) {
       else State_String += "0";
       // &_MQTT_Client.publish(String(_Relay_Topic + "/" + String(Selected_Relay) + "/State").c_str(), 0, false, State_String.c_str());
 
-      String Topic = "/Test";
-      String Payload = "More TEST";
-
-      _MQTT_Client.publish(Topic.c_str(), 0, false, Payload.c_str());
+      // _MQTT_Client.publish(Topic.c_str(), 0, false, Payload.c_str());
 
       return;
     }

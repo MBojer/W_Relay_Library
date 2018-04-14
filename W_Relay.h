@@ -7,7 +7,7 @@ Version 0.1
   #define W_Relay_h
 
   #include "Arduino.h"
-  #include <AsyncMqttClient.h>
+  #include "MB_Queue.h"
 
   class W_Relay {
 
@@ -22,8 +22,6 @@ Version 0.1
       void Set_Pins(int Replay_Pin_1, int Replay_Pin_2, int Replay_Pin_3);
       void Set_Pins(int Replay_Pin_1, int Replay_Pin_2);
       void Set_Pins(int Replay_Pin_1);
-
-      void Set_MQTT_Client(AsyncMqttClient &MQTT_Client);
 
       void Set_Topics(String Relay_Topic_String_ALL, String Relay_Topic_String);
 
@@ -48,6 +46,11 @@ Version 0.1
 
 
     private:
+
+      // --------------------------------------------- MB_Queue ---------------------------------------------
+      MB_Queue _Relay_Topic_Queue(10);
+      MB_Queue _Relay_Payload_Queue(10);
+
 
       // --------------------------------------------- Relay Auto OFF ---------------------------------------------
       void _Relay_Auto_OFF(int Relay_Pin);
@@ -77,10 +80,6 @@ Version 0.1
 
       unsigned long _Relay_Auto_OFF_At[_Relay_Number_Of_Init] = {0, 0, 0, 0, 0, 0};
       unsigned long _Relay_Auto_OFF_Delay = 5000;
-
-
-      // --------------------------------------------- Set MQTT Client ---------------------------------------------
-      AsyncMqttClient _MQTT_Client;
 
 
   };
