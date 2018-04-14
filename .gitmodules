@@ -1,0 +1,3 @@
+[submodule "lib/MB_Queue"]
+	path = lib/MB_Queue
+	url = https://github.com/MBojer/MB_Queue.git
