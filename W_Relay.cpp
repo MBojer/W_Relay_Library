@@ -265,6 +265,12 @@ void W_Relay::Check(String Topic, String Payload) {
     else if(isValidNumber(Payload) == true) {
       byte State = Payload.toInt();
 
+      if (State > 2) {
+        // Invalid command entered
+        Serial.println("Relay - Invalid command entered");
+        return;
+      }
+
       bool State_Digital;
       if (State == ON) State_Digital = _Relay_On_State;
       else if (State == OFF) State_Digital = !_Relay_On_State;
