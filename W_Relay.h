@@ -22,7 +22,7 @@ Version 0.1
       void Set_Pins(int Replay_Pin_1, int Replay_Pin_2);
       void Set_Pins(int Replay_Pin_1);
 
-      void Set_Topics(String Relay_Topic_String_ALL, String Relay_Topic_String);
+      void Set_Topics(String Relay_Topic_String_All, String Relay_Topic_String);
 
       void Set_Auto_OFF_Relays(bool Auto_OFF_Relay_1, bool Auto_OFF_Relay_2, bool Auto_OFF_Relay_3, bool Auto_OFF_Relay_4, bool Auto_OFF_Relay_5, bool Auto_OFF_Relay_6);
       void Set_Auto_OFF_Relays(bool Auto_OFF_Relay_1, bool Auto_OFF_Relay_2, bool Auto_OFF_Relay_3, bool Auto_OFF_Relay_4, bool Auto_OFF_Relay_5);

@@ -58,10 +58,10 @@ void W_Relay::Set_Pins(int Replay_Pin_1) {
 
 
 // --------------------------------------------- Set_Topics() ---------------------------------------------
-void W_Relay::Set_Topics(String _Relay_Topic_String_All, String _Relay_Topic_String) {
+void W_Relay::Set_Topics(String Relay_Topic_String_All, String Relay_Topic_String) {
 
-  _Relay_Topic = _Relay_Topic_String;
-  _Relay_Topic_All = _Relay_Topic_String_All;
+  _Relay_Topic_All = Relay_Topic_String_All;
+  _Relay_Topic = Relay_Topic_String;
 
 } // Set_Topics()
 
@@ -217,13 +217,12 @@ String W_Relay::MQTT_Send_Payload() {
 // --------------------------------------------- Check ---------------------------------------------
 void W_Relay::Check(String Topic, String Payload) {
 
-  if (Payload.length() > 1) Payload = Payload.substring(0, 1); // Trim length to avoid some wird error
-
   // /Boat/ALL
-  if (Topic == _Relay_Topic_All && _Relay_Topic != "") {
+  if (Topic == _Relay_Topic_All && _Relay_Topic_All != "") {
     if (Payload.indexOf("Relay-OFF") != -1) {
       Serial.println("Relay - All OFF");
       for (int i = 0; i < _Relay_Number_Of_Init; i++) {
+        if (_Relay_Pin[i] == -1) continue;
         if (digitalRead(_Relay_Pin[i]) != !_Relay_On_State) {
           digitalWrite(_Relay_Pin[i], !_Relay_On_State);
           Serial.println("Relay " + String(i + 1) + " changed state to: OFF");
@@ -241,6 +240,8 @@ void W_Relay::Check(String Topic, String Payload) {
   }
 
   else if (Topic.indexOf(_Relay_Topic) != -1 && _Relay_Topic != "") {
+
+    if (Payload.length() > 1) Payload = Payload.substring(0, 1); // Trim length to avoid some wird error
 
     String Relay_String = Topic;
     Relay_String.replace(_Relay_Topic + "/", "");
