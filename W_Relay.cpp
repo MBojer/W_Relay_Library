@@ -217,6 +217,8 @@ String W_Relay::MQTT_Send_Payload() {
 // --------------------------------------------- Check ---------------------------------------------
 void W_Relay::Check(String Topic, String Payload) {
 
+  if (Payload.length() > 1) Payload = Payload.substring(0, 1); // Trim length to avoid some wird error
+
   // /Boat/ALL
   if (Topic == _Relay_Topic_All && _Relay_Topic != "") {
     if (Payload.indexOf("Relay-OFF") != -1) {
