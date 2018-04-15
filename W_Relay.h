@@ -7,7 +7,6 @@ Version 0.1
   #define W_Relay_h
 
   #include "Arduino.h"
-  #include "MB_Queue.h"
 
   class W_Relay {
 
@@ -38,23 +37,32 @@ Version 0.1
 
 
       // --------------------------------------------- Relay Auto OFF ---------------------------------------------
-      void Relay_Auto_OFF();
+      void Auto_OFF();
 
 
       // --------------------------------------------- Check ---------------------------------------------
       void Check(String Topic, String Payload);
 
 
+      // --------------------------------------------- MQTT Send Queue ---------------------------------------------
+      String MQTT_Send_Topic(bool Remove_Entry);
+      String MQTT_Send_Topic();
+      String MQTT_Send_Payload(bool Remove_Entry);
+      String MQTT_Send_Payload();
+
+
     private:
+      // --------------------------------------------- MQTT Send Queue ---------------------------------------------
+      String _MQTT_Send_Topic = ";";
+      String _MQTT_Send_Payload = ";";
 
-      // --------------------------------------------- MB_Queue ---------------------------------------------
-      MB_Queue _Relay_Topic_Queue(10);
-      MB_Queue _Relay_Payload_Queue(10);
-
+      void _MQTT_Send_Topic_Add(String Add_String);
+      void _MQTT_Send_Payload_Add(String Add_String);
 
       // --------------------------------------------- Relay Auto OFF ---------------------------------------------
       void _Relay_Auto_OFF(int Relay_Pin);
-      void _Relay_Auto_OFF_Check(int Relay_Pin);
+      void _Relay_Auto_OFF_Check(byte Selected_Relay);
+
 
       // --------------------------------------------- General ---------------------------------------------
       #define OFF 0
@@ -80,6 +88,7 @@ Version 0.1
 
       unsigned long _Relay_Auto_OFF_At[_Relay_Number_Of_Init] = {0, 0, 0, 0, 0, 0};
       unsigned long _Relay_Auto_OFF_Delay = 5000;
+
 
 
   };
